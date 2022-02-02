@@ -3,11 +3,7 @@
     <slot></slot>
   </el-button>
   <div class="m-choose-icon-dialog-body-height">
-    <el-dialog
-      v-model="dialogVisible"
-      :title="title"
-      width="50%"
-    >
+    <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-scrollbar>
         <div class="container">
           <div
@@ -15,12 +11,12 @@
             v-for="(item, index) in Object.keys(Icons)"
             :key="index"
             @click.prevent="CopyItem(item)"
-            >
-              <div>
-                <component :is="`icon${toLine(item)}`"></component>
-              </div>
-              <p>{{ item }}</p>
+          >
+            <div>
+              <component :is="`icon${toLine(item)}`"></component>
             </div>
+            <p>{{ item }}</p>
+          </div>
         </div>
       </el-scrollbar>
     </el-dialog>
@@ -37,16 +33,16 @@ export default defineComponent({
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   emits: ['update:visible'],
   setup(props, context) {
-    const Icons:any = ElIcons
+    const Icons: any = ElIcons
     // 拷贝父组件visible
     const dialogVisible = ref<boolean>(props.visible)
     const handleClick = () => {
@@ -57,20 +53,26 @@ export default defineComponent({
       useCopy(text)
       dialogVisible.value = false
     }
-    watch(() => props.visible, val => {
-      dialogVisible.value = val
-    })
-    watch(() => dialogVisible.value, val => {
-      context.emit('update:visible', val)
-    })
+    watch(
+      () => props.visible,
+      (val) => {
+        dialogVisible.value = val
+      }
+    )
+    watch(
+      () => dialogVisible.value,
+      (val) => {
+        context.emit('update:visible', val)
+      }
+    )
     return {
       handleClick,
       dialogVisible,
       toLine,
       Icons,
-      CopyItem
+      CopyItem,
     }
-  }
+  },
 })
 </script>
 
