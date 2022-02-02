@@ -3,45 +3,58 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { EventItem } from './types'
 
 export default defineComponent({
   components: {
-    FullCalendar
+    FullCalendar,
   },
   props: {
-    options: {
+    selectable: {
+      type: Boolean,
+      default: false,
+    },
+    locale: {
+      type: String,
+      default: 'zh-cn',
+    },
+    headerToolbar: {
       type: Object,
-      required: true
-    }
+    },
+    dateClick: {
+      type: Function,
+    },
+    events: {
+      type: Array as PropType<EventItem[]>,
+    },
+    eventContent: {
+      type: Function,
+    },
   },
   setup(props) {
     let calendarOptions = ref<any>(null)
-    let calendar = ref<any>(null)
     calendarOptions = {
-      plugins: [ dayGridPlugin, interactionPlugin ],
+      plugins: [dayGridPlugin, interactionPlugin],
       initialView: 'dayGridMonth',
-      selectable: props.options.selectable,
-      locale: props.options.locale,
-      headerToolbar: props.options.headerToolbar,
-      dateClick: props.options.dateClick,
-      events: props.options.events,
-      eventContent: props.options.eventContent
+      selectable: props.selectable,
+      locale: props.locale,
+      headerToolbar: props.headerToolbar,
+      dateClick: props.dateClick,
+      events: props.events,
+      eventContent: props.eventContent,
     }
 
-    console.log(calendar);
     return {
       calendarOptions,
-      calendar
     }
-  }
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-
 </style>

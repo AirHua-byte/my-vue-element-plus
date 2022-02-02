@@ -1,5 +1,11 @@
 <template>
-  <el-form :model="model" :rules="rules" v-bind="$attrs" ref="form">
+  <el-form
+    :model="model"
+    :rules="rules"
+    v-bind="$attrs"
+    ref="form"
+    :validate-on-rule-change="false"
+  >
     <template v-for="(item, index) in options" :key="index">
       <el-form-item
         v-if="!item.children || !item.children.length"
@@ -12,8 +18,7 @@
           :placeholder="item.placeholder"
           v-model="model[item.prop]"
           v-bind="item.attrs"
-        >
-        </component>
+        ></component>
         <el-upload
           v-if="item.type === 'upload'"
           v-bind="item.uploadAttrs"
@@ -50,17 +55,27 @@ import cloneDeep from 'lodash/cloneDeep'
 import E from 'wangeditor'
 
 export default defineComponent({
-  emits: ['on-preview', 'on-remove', 'on-success', 'on-error', 'on-progress', 'on-change', 'before-upload', 'before-remove', 'on-exceed'],
+  emits: [
+    'on-preview',
+    'on-remove',
+    'on-success',
+    'on-error',
+    'on-progress',
+    'on-change',
+    'before-upload',
+    'before-remove',
+    'on-exceed',
+  ],
   props: {
     // 表单配置项
     options: {
       type: Array as PropType<FormOptions[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props, context) {
     // 表单对象
-    let form = ref<FormInstance| null>(null)
+    let form = ref<FormInstance | null>(null)
     // 表单数据
     let model = ref<any>(null)
     // 表单验证规则
@@ -90,10 +105,10 @@ export default defineComponent({
       context.emit('on-remove', { file, fileList })
     }
     const onSuccess = (response: any, file: File, fileList: FileList) => {
-      const uploadItem = props.options.find(item => item.type === 'upload')
+      const uploadItem = props.options.find((item) => item.type === 'upload')
       if (uploadItem && uploadItem.type) {
         model.value[`${uploadItem.prop}`] = { response, file, fileList }
-        console.log('model', model);
+        console.log('model', model)
       }
       context.emit('on-success', { response, file, fileList })
     }
@@ -118,7 +133,7 @@ export default defineComponent({
 
     // editor
     const initEditor = () => {
-      const editor = new E("#editor")
+      const editor = new E('#editor')
       props.options.map((item) => {
         if (item.type === 'editor') {
           if (item.placeholder) {
@@ -127,7 +142,7 @@ export default defineComponent({
             editor.txt.html(item.value)
             editor.config.onchange = function (newHtml: string) {
               model.value[`${item.prop}`] = newHtml
-            };
+            }
             edit.value = editor
           }
         }
@@ -137,20 +152,32 @@ export default defineComponent({
     const resetFields = () => {
       form.value?.resetFields()
       if (props.options && props.options.length) {
-        const editorItem = props.options.find(item => item.type === 'editor')
-        edit.value.txt.html(editorItem?.value)
+        const editorItem = props.options.find((item) => item.type === 'editor')
+        if (editorItem) {
+          edit.value.txt.html(editorItem?.value)
+        }
       }
     }
-    
+    // 获取表单数据
+    const getFormData = () => {
+      return model.value
+    }
+
     // 监听父组件传递来的options
-    watch(() => props.options, () => {
-      initForm()
-    }, { deep: true })
+    watch(
+      () => props.options,
+      () => {
+        initForm()
+      },
+      { deep: true }
+    )
 
     // vue3生命周期
     initForm()
     onMounted(() => {
-      initEditor()
+      if (props.options.map((item) => item.type).includes('editor')) {
+        initEditor()
+      }
     })
     return {
       form,
@@ -165,9 +192,10 @@ export default defineComponent({
       beforeUpload,
       beforeRemove,
       onExceed,
-      resetFields
+      resetFields,
+      getFormData,
     }
-  }
+  },
 })
 </script>
 

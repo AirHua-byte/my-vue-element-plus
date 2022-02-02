@@ -1,24 +1,23 @@
 <template>
   <m-modal-form v-model:dialogVisible="visible" :options="options">
     <template #uploadArea>
-      <el-icon class="el-icon--upload"><icon-upload-filled /></el-icon>
+      <el-icon class="el-icon--upload">
+        <icon-upload-filled />
+      </el-icon>
       <div class="el-upload__text">
-        拖拽上传或 <em>点击上传</em>
+        拖拽上传或
+        <em>点击上传</em>
       </div>
     </template>
 
     <template #uploadTip>
-      <div class="el-upload__tip">
-        jpg/png 文件大小不能超过500kb
-      </div>
+      <div class="el-upload__tip">jpg/png 文件大小不能超过500kb</div>
     </template>
-    
+
     <template #footer="scope">
       <span class="dialog-footer">
         <el-button @click="reset(scope.form)">重置</el-button>
-        <el-button type="primary" @click="submit((scope.form))"
-          >提交</el-button
-        >
+        <el-button type="primary" @click="submit((scope.form))">提交</el-button>
       </span>
     </template>
   </m-modal-form>
@@ -28,10 +27,13 @@
 <script lang='ts'>
 import { ElMessage } from 'element-plus'
 import { defineComponent, ref } from 'vue'
-import { FormInstance, FormOptions } from '../../components/form/src/types/types'
+import {
+  FormInstance,
+  FormOptions,
+} from '../../components/form/src/types/types'
 
 interface MyForm {
-  form: FormInstance,
+  form: FormInstance
   model: any
   resetFields?: Function
 }
@@ -49,18 +51,18 @@ export default defineComponent({
           {
             required: true,
             message: '用户名不能为空',
-            trigger: 'blur'
+            trigger: 'blur',
           },
           {
             min: 2,
             max: 15,
             message: '用户名在2-15长度之间',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         attrs: {
-          clearable: true
-        }
+          clearable: true,
+        },
       },
       {
         type: 'input',
@@ -72,13 +74,13 @@ export default defineComponent({
           {
             required: true,
             message: '密码不能为空',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         attrs: {
           clearable: true,
-          showPassword: true
-        }
+          showPassword: true,
+        },
       },
       {
         type: 'rate',
@@ -86,14 +88,14 @@ export default defineComponent({
         prop: 'movieRate',
         label: '评分',
         attrs: {
-          colors: ['#99A9BF', '#F7BA2A', '#FF9900']
-        }
+          colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
+        },
       },
       {
         type: 'slider',
         prop: 'slider',
         value: 0,
-        label: '进度条'
+        label: '进度条',
       },
       {
         type: 'upload',
@@ -102,15 +104,15 @@ export default defineComponent({
         uploadAttrs: {
           action: 'https://fileadm.huabyte.com/upload',
           drag: true,
-          multiple: true
+          multiple: true,
         },
         rules: [
           {
             required: true,
             message: '图片不能为空',
-            trigger: 'blur'
-          }
-        ]
+            trigger: 'blur',
+          },
+        ],
       },
       {
         type: 'editor',
@@ -122,17 +124,17 @@ export default defineComponent({
           {
             required: true,
             message: '简介不能为空',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     ]
 
     const handle = () => {
       visible.value = !visible.value
     }
     const reset = (form: any) => {
-      if(form.resetFields) {
+      if (form.resetFields) {
         form.resetFields()
       }
     }
@@ -153,12 +155,11 @@ export default defineComponent({
       options,
       handle,
       reset,
-      submit
+      submit,
     }
-  }
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-
 </style>

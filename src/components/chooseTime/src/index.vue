@@ -7,8 +7,7 @@
     :end="endSelectTime"
     :placeholder="startPlaceholder"
     style="margin-right: 10px"
-  >
-  </el-time-select>
+  ></el-time-select>
   <el-time-select
     v-model="endTime"
     :start="startSelectTime"
@@ -16,39 +15,38 @@
     :step="step"
     :end="endSelectTime"
     :placeholder="endPlaceholder"
-  >
-  </el-time-select>
+  ></el-time-select>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
     // 定义时间间隔
     step: {
       type: String,
-      default: '00:30'
+      default: '00:30',
     },
     // 开始可选择时间
     startSelectTime: {
       type: String,
-      default: '00:00'
+      default: '00:00',
     },
     // 结束可选择时间
     endSelectTime: {
       type: String,
-      default: '23:30'
+      default: '23:30',
     },
     // 提示
     startPlaceholder: {
       type: String,
-      default: '请选择开始时间'
+      default: '请选择开始时间',
     },
     endPlaceholder: {
       type: String,
-      default: '请选择结束时间'
-    }
+      default: '请选择结束时间',
+    },
   },
   setup() {
     // 开始时间
@@ -58,25 +56,15 @@ export default defineComponent({
     // 是否禁用
     let endTimeDisabled = ref<boolean>(true)
 
-    // 监听开始时间的变化
-    /* watch(() => startTime.value, val => {
-      if (val === '') {
-        endTimeDisabled.value = true
-      } else {
-        endTimeDisabled.value = false
-      }
-    }) */
-
     return {
       startTime,
       endTime,
-      endTimeDisabled
+      endTimeDisabled,
     }
-  }
+  },
 })
 </script>
 
 
 <style lang="scss" scoped>
-
 </style>

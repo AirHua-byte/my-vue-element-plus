@@ -12,6 +12,8 @@ import form from "./form"
 import modalForm from "./modalForm"
 import table from "./table"
 import calendar from "./calendar"
+import { toLine } from '../utils'
+import * as Icons from '@element-plus/icons-vue'
 
 const components = [
   chooseIcon,
@@ -31,6 +33,9 @@ const components = [
 
 export default {
   install(app: App) {
+    for (let i in Icons) {
+      app.component(`icon${toLine(i)}`, (Icons as any)[i])
+    }
     components.map(item => {
       app.use(item)
     })

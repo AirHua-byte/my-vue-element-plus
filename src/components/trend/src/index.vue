@@ -28,48 +28,48 @@ export default defineComponent({
     // 标记当前趋势up | down
     type: {
       type: String,
-      default: 'up'
+      default: 'up',
     },
     // 趋势显示文字
     text: {
       type: String,
-      default: '测试文字'
+      default: '测试文字',
     },
     // 上升趋势图标的颜色
     upIconColor: {
       type: String,
-      default: '#f5222d'
+      default: '#f5222d',
     },
     // 下降趋势图标颜色
     downIconColor: {
       type: String,
-      default: '#52c41a'
+      default: '#52c41a',
     },
     // 上升趋势文字的颜色
     upTextColor: {
       type: String,
-      default: '#000'
+      default: '#000',
     },
     // 下降趋势文字颜色
     downTextColor: {
       type: String,
-      default: '#000'
+      default: '#000',
     },
     // 颜色反转, 仅在默认颜色模式生效
     reverseColor: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 上升图标
     upIcon: {
       type: String,
-      default: 'ArrowUp'
+      default: 'ArrowUp',
     },
     // 下降
     downIcon: {
       type: String,
-      default: 'ArrowDown'
-    }
+      default: 'ArrowDown',
+    },
   },
 
   setup(props, context) {
@@ -80,9 +80,9 @@ export default defineComponent({
     return {
       textColor,
       solts,
-      toLine
+      toLine,
     }
-  }
+  },
 })
 </script>
 

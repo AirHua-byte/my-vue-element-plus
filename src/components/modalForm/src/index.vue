@@ -1,11 +1,13 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    title="编辑信息"
-    width="50%"
-  >
+  <el-dialog v-model="visible" :title="title" width="50%">
     <el-scrollbar max-height="600px">
-      <m-form ref="form" :options="options" @on-success="onSuccess" @on-preview="onPreview" @on-progress="onProgress">
+      <m-form
+        ref="form"
+        :options="options"
+        @on-success="onSuccess"
+        @on-preview="onPreview"
+        @on-progress="onProgress"
+      >
         <template #uploadArea>
           <slot name="uploadArea"></slot>
         </template>
@@ -27,60 +29,69 @@ import { FormOptions } from '../../form/src/types/types'
 export default defineComponent({
   emits: ['update:dialogVisible'],
   props: {
+    title: {
+      type: String,
+      default: '编辑信息',
+    },
     dialogVisible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     options: {
-      type: Array as PropType<FormOptions[]>
+      type: Array as PropType<FormOptions[]>,
     },
     onChange: {
-      type: Function
+      type: Function,
     },
     beforeUpload: {
-      type: Function
+      type: Function,
     },
     onPreview: {
-      type: Function
+      type: Function,
     },
     onProgress: {
-      type: Function
+      type: Function,
     },
     onRemove: {
-      type: Function
+      type: Function,
     },
     beforeRemove: {
-      type: Function
+      type: Function,
     },
     onSuccess: {
-      type: Function
+      type: Function,
     },
     onExceed: {
-      type: Function
-    }
+      type: Function,
+    },
   },
 
   setup(props, context) {
     let visible = ref<boolean>(props.dialogVisible)
     let form = ref<any>(null)
 
-    watch(() => visible.value, (val: Boolean) => {
-      context.emit('update:dialogVisible', val)
-    })
-    watch(() => props.dialogVisible, (val: boolean) => {
-      visible.value = props.dialogVisible
-    })
+    watch(
+      () => visible.value,
+      (val: Boolean) => {
+        context.emit('update:dialogVisible', val)
+      }
+    )
+    watch(
+      () => props.dialogVisible,
+      (val: boolean) => {
+        visible.value = props.dialogVisible
+      }
+    )
 
-    console.log(props.options);
+    console.log(props.options)
 
     return {
       visible,
-      form
+      form,
     }
-  }
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-
 </style>
